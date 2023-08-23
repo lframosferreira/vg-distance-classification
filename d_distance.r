@@ -1,6 +1,5 @@
 library(igraph)
 library("Matrix")
-# library('MatrixStats')
 
 # Shannon entropy
 
@@ -43,11 +42,8 @@ node_distance <- function(g) {
             a[1:n, quem[j]] <- hist(linhas, plot = FALSE, breaks = (0:n))$counts
         }
 
-        # m<-c()
-
         retorno <- (a / (n - 1))
     }
-
     return(retorno)
 }
 
@@ -62,7 +58,7 @@ nnd <- function(g) {
     pdfm <- colMeans(nd)
 
     norm <- log(max(c(2, length(which(pdfm[1:(N - 1)] > 0)) + 1)))
-
+    
     return(c(pdfm, max(c(0, entropia(pdfm) - entropia(nd) / N)) / norm))
 }
 
@@ -178,6 +174,8 @@ d <- function(g, h, w1, w2, w3) {
 
     if (w1 + w2 > 0) {
         pg <- nnd(g)
+        print("nnd_G:")
+        print(pg)
 
         PM[1:(N - 1)] <- pg[1:(N - 1)]
 
@@ -213,8 +211,11 @@ d <- function(g, h, w1, w2, w3) {
 
         third <- third + sqrt((entropia((Pg + Ph) / 2) - (entropia(pg) + entropia(ph)) / 2) / log(2))
     }
-
-    return(w1 * first + w2 * second + w3 * third)
+    print("first:")
+    print(first)
+    print("second:")
+    print(second)
+    return(w1 * first + w2 * second)
 }
 
 
@@ -224,3 +225,5 @@ rm(list = setdiff(ls(), lsf.str()))
 
 # g3 <- graph.graphdb("si6_r005_s100.B99") database de graph isomorphism
 # write(
+
+print(d("net1.txt", "net2.txt", 0.45, 0.45, 0.1))

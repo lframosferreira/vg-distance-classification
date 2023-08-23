@@ -11,11 +11,11 @@ W3: float = 0.1
 
 # I am assuming the log is base e
 def network_node_dispersion(graph: npt.NDArray) -> np.float64:
-    ndd, graph_diameter = node_distance_distribution(graph=graph, normalize=True)
-
-    averages = np.sum(ndd, axis=1)
-
-    jsd = np.sum(ndd * np.log(ndd / averages)) / graph.shape[0]
+    ndd, graph_diameter = node_distance_distribution(graph=graph, return_diameter=True)
+    ndd = np.pad(ndd, [(0, 0), (0, ndd.shape[0] - ndd.shape[1])])
+    averages = np.sum(ndd, axis=0) / graph.shape[0]
+    aux = np.divide(ndd, averages, where=averages != 0, out=np.zeros(ndd.shape))
+    jsd = np.sum(ndd * np.log(aux, where=aux != 0)) / graph.shape[0]
     return jsd / np.log(graph_diameter + 1), averages
 
 
@@ -46,8 +46,14 @@ def node_distance_distribution(
 
 def dissimilarity_measure(G, H):
     nnd_G, averages_G = network_node_dispersion(G)
+    print(f"nnd_G: {nnd_G}")
     nnd_H, averages_H = network_node_dispersion(H)
 
-    return W1 * np.sqrt(
-        jensenshannon(averages_H, averages_G) / np.log(2)
-    ) + W2 * np.abs(np.sqrt(nnd_G) - np.sqrt(nnd_H))
+    print("first")
+    print(jensenshannon(averages_H, averages_G, base=2))
+    print("second")
+    print(np.abs(np.sqrt(nnd_G) - np.sqrt(nnd_H)))
+
+    return W1 * max(jensenshannon(averages_H, averages_G, base=2), 0) + W2 * np.abs(
+        np.sqrt(nnd_G) - np.sqrt(nnd_H)
+    )
