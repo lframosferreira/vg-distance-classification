@@ -43,10 +43,11 @@ def node_distance_distribution(
         return ndd, graph_diameter
     return ndd
 
+
 def dissimilarity_measure(G, H):
     nnd_G, averages_G = network_node_dispersion(G)
     nnd_H, averages_H = network_node_dispersion(H)
 
-
-
-    return W1 * np.sqrt(jensenshannon(averages_H, averages_G) / np.log(2))
+    return W1 * np.sqrt(
+        jensenshannon(averages_H, averages_G) / np.log(2)
+    ) + W2 * np.abs(np.sqrt(nnd_G) - np.sqrt(nnd_H))

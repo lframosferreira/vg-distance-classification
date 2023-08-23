@@ -1,3 +1,3 @@
-# vg-feature-extraction
+# vg-structural-dissimilarities-classifier
 
-Feature extraction from time series and their respective visibility graphs available at [Zenodo](https://zenodo.org/record/4916206)
+Quantifying network structural dissimilarities by Tiago A. Schieber, Laura Carpi, Albert Díaz-Guilera, Panos M. Pardalos, Cristina Masoller and Martín G. Ravetti
