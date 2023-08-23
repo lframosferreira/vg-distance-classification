@@ -3,24 +3,28 @@ import numpy.typing as npt
 import rustworkx as rx
 from scipy.spatial.distance import jensenshannon
 
+""" Constant weights used in the original paper """
 
 W1: float = 0.45
 W2: float = 0.45
 W3: float = 0.1
 
 
-# I am assuming the log is base e
-def network_node_dispersion(graph: npt.NDArray) -> np.float64:
-    ndd, graph_diameter = node_distance_distribution(graph=graph, return_diameter=True)
-    ndd = np.pad(ndd, [(0, 0), (0, ndd.shape[0] - ndd.shape[1])])
-    averages = np.sum(ndd, axis=0) / graph.shape[0]
-    aux = np.divide(ndd, averages, where=averages != 0, out=np.zeros(ndd.shape))
-    jsd = np.sum(ndd * np.log(aux, where=aux != 0)) / graph.shape[0]
-    return jsd / np.log(graph_diameter + 1), averages
+"""Calculates a graph node distribution
+
+@type graph: npt.NDArray[np.int64]
+@param graph: the graph whose node distribution will be calculated
+
+@type return_diameter: bool
+@param return_diameter: the diameter of the graph (the longest shortest path)
+
+@rtype: npt.NDArray[np.float64]
+@returns: the node distribution of the graph
+"""
 
 
 def node_distance_distribution(
-    graph: npt.NDArray[np.int64], return_diameter: np.bool_ = False
+    graph: npt.NDArray[np.int64], return_diameter: bool = False
 ) -> npt.NDArray[np.float64]:
     G: rx.PyGraph = rx.PyGraph(multigraph=False).from_adjacency_matrix(
         graph.astype(np.float64)
@@ -44,16 +48,30 @@ def node_distance_distribution(
     return ndd
 
 
+"""Calculates a graph node dispersion
+
+@type graph: npt.NDArray[np.int64]
+@param graph: the graph whose node dispersion will be calculated
+
+@rtype: np.float64
+@returns: the node dispersion of the graph
+"""
+
+
+def network_node_dispersion(
+    graph: npt.NDArray,
+) -> tuple[np.float64, npt.NDArray[np.float64]]:
+    ndd, graph_diameter = node_distance_distribution(graph=graph, return_diameter=True)
+    ndd = np.pad(ndd, [(0, 0), (0, ndd.shape[0] - ndd.shape[1])])
+    averages = np.sum(ndd, axis=0) / graph.shape[0]
+    aux = np.divide(ndd, averages, where=averages != 0, out=np.zeros(ndd.shape))
+    jsd = np.sum(ndd * np.log(aux, where=aux != 0)) / graph.shape[0]
+    return jsd / np.log(graph_diameter + 1), averages
+
+
 def dissimilarity_measure(G, H):
     nnd_G, averages_G = network_node_dispersion(G)
-    print(f"nnd_G: {nnd_G}")
     nnd_H, averages_H = network_node_dispersion(H)
-
-    print("first")
-    print(jensenshannon(averages_H, averages_G, base=2))
-    print("second")
-    print(np.abs(np.sqrt(nnd_G) - np.sqrt(nnd_H)))
-
     return W1 * max(jensenshannon(averages_H, averages_G, base=2), 0) + W2 * np.abs(
         np.sqrt(nnd_G) - np.sqrt(nnd_H)
     )

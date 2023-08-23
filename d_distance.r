@@ -58,7 +58,7 @@ nnd <- function(g) {
     pdfm <- colMeans(nd)
 
     norm <- log(max(c(2, length(which(pdfm[1:(N - 1)] > 0)) + 1)))
-    
+
     return(c(pdfm, max(c(0, entropia(pdfm) - entropia(nd) / N)) / norm))
 }
 
