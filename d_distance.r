@@ -174,8 +174,8 @@ d <- function(g, h, w1, w2, w3) {
 
     if (w1 + w2 > 0) {
         pg <- nnd(g)
-        print("nnd_G:")
-        print(pg)
+        print("nnd_net1:")
+        print(pg[N])
 
         PM[1:(N - 1)] <- pg[1:(N - 1)]
 
@@ -226,4 +226,4 @@ rm(list = setdiff(ls(), lsf.str()))
 # g3 <- graph.graphdb("si6_r005_s100.B99") database de graph isomorphism
 # write(
 
-print(d("net1.txt", "net2.txt", 0.45, 0.45, 0.1))
+print(d("g1.txt", "net2.txt", 0.45, 0.45, 0.1))

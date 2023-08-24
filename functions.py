@@ -25,11 +25,11 @@ W3: float = 0.1
 
 def node_distance_distribution(
     graph: npt.NDArray[np.int64], return_diameter: bool = False
-) -> npt.NDArray[np.float64]:
+) -> np.float64:
     G: rx.PyGraph = rx.PyGraph(multigraph=False).from_adjacency_matrix(
         graph.astype(np.float64)
     )
-    dist: npt.NDArray[np.int_] = rx.distance_matrix(G, parallel_threshold=300).astype(
+    dist: npt.NDArray[np.int64] = rx.distance_matrix(G, parallel_threshold=300).astype(
         np.int64
     )
     dist[dist < 0] = dist.shape[0]
