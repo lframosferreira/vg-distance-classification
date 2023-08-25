@@ -66,12 +66,14 @@ def network_node_dispersion(
     averages = np.sum(ndd, axis=0) / graph.shape[0]
     aux = np.divide(ndd, averages, where=averages != 0, out=np.zeros(ndd.shape))
     jsd = np.sum(ndd * np.log(aux, where=aux != 0)) / graph.shape[0]
-    return jsd / np.log(graph_diameter + 1), averages
+    return jsd / np.log(graph_diameter + 1), averages[:graph_diameter]
 
 
 def dissimilarity_measure(G, H):
     nnd_G, averages_G = network_node_dispersion(G)
     nnd_H, averages_H = network_node_dispersion(H)
+    averages_G = np.pad(averages_G, 4096)
+    averages_H = np.pad(averages_H, 4096)
     return W1 * max(jensenshannon(averages_H, averages_G, base=2), 0) + W2 * np.abs(
         np.sqrt(nnd_G) - np.sqrt(nnd_H)
     )
