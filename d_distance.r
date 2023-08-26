@@ -226,4 +226,4 @@ rm(list = setdiff(ls(), lsf.str()))
 # g3 <- graph.graphdb("si6_r005_s100.B99") database de graph isomorphism
 # write(
 
-print(d("g1.txt", "net2.txt", 0.45, 0.45, 0.1))
+print(d("net1.txt", "net2.txt", 0.45, 0.45, 0.1))
