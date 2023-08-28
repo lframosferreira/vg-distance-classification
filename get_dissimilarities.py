@@ -7,8 +7,6 @@ import scipy
 
 for idx in range(18):
     d = {}
-    if idx != 17:
-        continue
     with h5py.File(f"data/exams_part{idx}.hdf5", "r") as file:
         for i in range(file["exam_id"].shape[0]):
             d[int(file["exam_id"][i])] = {}
