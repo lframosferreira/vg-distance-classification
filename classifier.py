@@ -8,7 +8,9 @@ import scipy
 class MyClassifier:
     def __init__(self, n_neighbors: int) -> None:
         self.clfs = [
-            KNeighborsClassifier(n_neighbors=5, n_jobs=-1, metric="precomputed")
+            KNeighborsClassifier(
+                n_neighbors=n_neighbors, n_jobs=-1, metric="precomputed"
+            )
             for _ in range(8)
         ]
 
