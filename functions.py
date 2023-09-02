@@ -2,6 +2,7 @@ import numpy as np
 import numpy.typing as npt
 import rustworkx as rx
 from scipy.spatial.distance import jensenshannon
+import numba
 
 """ Constant weights used in the original paper """
 
@@ -72,8 +73,15 @@ def network_node_dispersion(
 def dissimilarity_measure(G, H):
     nnd_G, averages_G = network_node_dispersion(G)
     nnd_H, averages_H = network_node_dispersion(H)
-    averages_G = np.pad(averages_G, 4096)
-    averages_H = np.pad(averages_H, 4096)
+    averages_G = np.pad(averages_G, (0, 4096 - len(averages_G)))
+    averages_H = np.pad(averages_H, (0, 4096 - len(averages_H)))
+    return W1 * max(jensenshannon(averages_H, averages_G, base=2), 0) + W2 * np.abs(
+        np.sqrt(nnd_G) - np.sqrt(nnd_H)
+    )
+
+def dissimilarity_measure_from_nnd_n_avgs(nnd_G, nnd_H, averages_G, averages_H):
+    averages_G = np.pad(averages_G, (0, 4096 - len(averages_G)))
+    averages_H = np.pad(averages_H, (0, 4096 - len(averages_H)))
     return W1 * max(jensenshannon(averages_H, averages_G, base=2), 0) + W2 * np.abs(
         np.sqrt(nnd_G) - np.sqrt(nnd_H)
     )

@@ -1,5 +1,6 @@
 name: vg-structural-dissimilarities-classification
 channels:
+  - numba
   - conda-forge
   - defaults
 dependencies:
@@ -14,7 +15,7 @@ dependencies:
   - brotli-bin=1.0.9
   - brotlipy=0.7.0
   - bzip2=1.0.8
-  - ca-certificates=2023.05.30
+  - ca-certificates=2023.7.22
   - certifi=2023.7.22
   - cffi=1.15.1
   - charset-normalizer=2.0.4
@@ -29,6 +30,7 @@ dependencies:
   - dbus=1.13.18
   - debugpy=1.6.7
   - decorator=5.1.1
+  - dill=0.3.7
   - executing=0.8.3
   - expat=2.5.0
   - fontconfig=2.14.1
@@ -87,6 +89,7 @@ dependencies:
   - libxml2=2.9.14
   - libxslt=1.1.35
   - libzlib=1.2.13
+  - llvmlite=0.41.0rc1
   - lz4-c=1.9.4
   - matplotlib=3.7.1
   - matplotlib-base=3.7.1
@@ -95,12 +98,14 @@ dependencies:
   - mkl-service=2.4.0
   - mkl_fft=1.3.6
   - mkl_random=1.2.2
+  - multiprocess=0.70.15
   - munkres=1.1.4
   - mypy=0.981
   - mypy_extensions=0.4.3
   - mysql=5.7.24
   - ncurses=6.4
   - nest-asyncio=1.5.6
+  - numba=0.58.0rc1
   - numexpr=2.8.4
   - numpy=1.25.2
   - numpy-base=1.25.2
