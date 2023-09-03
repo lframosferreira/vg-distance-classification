@@ -79,7 +79,7 @@ def dissimilarity_measure(G, H):
         np.sqrt(nnd_G) - np.sqrt(nnd_H)
     )
 
-def dissimilarity_measure_from_nnd_n_avgs(nnd_G, nnd_H, averages_G, averages_H):
+def dissimilarity_measure_from_nnd_n_avgs(nnd_G, nnd_H, averages_G, averages_H) -> float:
     averages_G = np.pad(averages_G, (0, 4096 - len(averages_G)))
     averages_H = np.pad(averages_H, (0, 4096 - len(averages_H)))
     return W1 * max(jensenshannon(averages_H, averages_G, base=2), 0) + W2 * np.abs(
