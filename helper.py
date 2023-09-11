@@ -21,12 +21,12 @@ for i, col in enumerate(cols):
 
 
 dfs = np.array(
-    [pd.read_csv(f"dists/saida{i}.csv", header=None).to_numpy() for i in range(8)]
+    [pd.read_csv(f"data/dists/saida{i}.csv", header=None).to_numpy() for i in range(8)]
 )
 
 
 clf = MyClassifier()
-clf.fit(dfs[:, :][:4000][:, :4000], labels[:4000])
+clf.fit(dfs[:][:4000][:, :4000], labels[:4000])
 
 y_pred = clf.predict(dfs[:, :][4001:][:4000])
 print(f"f1-score: {f1_score(labels[4001:], y_pred)}")
