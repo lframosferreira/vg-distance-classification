@@ -1,7 +1,6 @@
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
-import scipy
-
+import statistics
 # Serão 8 classificadores, 1 para cada lead. A moda das classificações vai ser a classificação final
 
 
@@ -20,10 +19,10 @@ class MyClassifier:
             self.clfs[i].fit(X[i], y)
 
     def predict(self, X):
-        all_preds = np.zeros(X.shape[[0]])
+        all_preds = np.zeros(X.shape[1])
         for j, x in enumerate(X):
             pred_for_lead = np.zeros(8)
             for i, clf in enumerate(self.clfs):
-                pred_for_lead[i] = clf.predict(X)
-            all_preds[j] = scipy.stats.mode(pred_for_lead)
+                pred_for_lead[i] = clf.predict(X[i])[0]
+            all_preds[j] = statistics.mode(pred_for_lead)
         return all_preds
