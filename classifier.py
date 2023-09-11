@@ -6,7 +6,7 @@ import scipy
 
 
 class MyClassifier:
-    def __init__(self, n_neighbors: int) -> None:
+    def __init__(self, n_neighbors: int = 10) -> None:
         self.clfs = [
             KNeighborsClassifier(
                 n_neighbors=n_neighbors, n_jobs=-1, metric="precomputed"
@@ -20,7 +20,10 @@ class MyClassifier:
             self.clfs[i].fit(X[i], y)
 
     def predict(self, X):
-        pred = np.zeros(8)
-        for i, clf in enumerate(self.clfs):
-            pred[i] = clf.predict(X)
-        return scipy.stats.mode(pred)
+        all_preds = np.zeros(X.shape[[0]])
+        for j, x in enumerate(X):
+            pred_for_lead = np.zeros(8)
+            for i, clf in enumerate(self.clfs):
+                pred_for_lead[i] = clf.predict(X)
+            all_preds[j] = scipy.stats.mode(pred_for_lead)
+        return all_preds

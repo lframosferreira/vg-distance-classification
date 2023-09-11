@@ -15,7 +15,7 @@ dependencies:
   - brotli-bin=1.0.9
   - brotlipy=0.7.0
   - bzip2=1.0.8
-  - ca-certificates=2023.7.22
+  - ca-certificates=2023.08.22
   - certifi=2023.7.22
   - cffi=1.15.1
   - charset-normalizer=2.0.4
@@ -91,8 +91,8 @@ dependencies:
   - libzlib=1.2.13
   - llvmlite=0.41.0rc1
   - lz4-c=1.9.4
-  - matplotlib=3.7.1
-  - matplotlib-base=3.7.1
+  - matplotlib=3.7.2
+  - matplotlib-base=3.7.2
   - matplotlib-inline=0.1.6
   - mkl=2023.1.0
   - mkl-service=2.4.0
