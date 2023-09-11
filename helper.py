@@ -38,6 +38,14 @@ for i, col in enumerate(cols):
         labels[i] = 7
 
 
+# In[57]:
+
+
+a = np.zeros((500, 500))
+a.shape
+a[200:].shape
+
+
 # In[ ]:
 
 
@@ -45,11 +53,10 @@ dfs = np.array(
     [pd.read_csv(f"dists/saida{i}.csv", header=None).to_numpy() for i in range(8)]
 )
 
-X_train, X_test, y_train, y_test = train_test_split(dfs, labels, test_size=0.3)
 
 clf = MyClassifier()
-clf.fit(X_train, y_train)
+clf.fit(np.array(a[:4000][:, :4000] for a in dfs), labels[:4000])
 
-y_pred = clf.predict(X_test)
-print(f"f1-score: {f1_score(y_test, y_pred)}")
+y_pred = clf.predict(np.array([a[4001:] for a in dfs]))
+print(f"f1-score: {f1_score(labels[4001:], y_pred)}")
 
