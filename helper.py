@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 
 # obs: dados faltantes de labels => preenchendo com label 7 (sem doença)
 
-results = pd.read_json("results/nnd_n_avgs17.json")
+results = pd.read_json("results/nnd_n_avgs0.json")
 cols = results.columns
 
 labels_df = pd.read_json("exams_labels.json", lines=True)
@@ -24,14 +24,15 @@ dfs = np.array(
     [pd.read_csv(f"data/dists/saida{i}.csv", header=None).to_numpy() for i in range(8)]
 )
 
+train_len = int(0.7 * cols.shape[0])
 
 clf = MyClassifier()
-clf.fit(dfs[:, :4000, :4000], labels[:4000])
+clf.fit(dfs[:, :train_len, :train_len], labels[:train_len])
 
-y_pred = clf.predict(dfs[:, 4001:, :4000])
+y_pred = clf.predict(dfs[:, (train_len + 1):, :train_len])
 
-ac = accuracy_score(labels[4001:], y_pred, average=None)
-prec = precision_score(labels[4001:], y_pred, average=None)
-rec = recall_score(labels[4001:], y_pred, average=None)
-f1 = f1_score(labels[4001:], y_pred, average=None)
+ac = accuracy_score(labels[(train_len + 1):], y_pred, average=None)
+prec = precision_score(labels[(train_len + 1):], y_pred, average=None)
+rec = recall_score(labels[(train_len + 1):], y_pred, average=None)
+f1 = f1_score(labels[(train_len + 1):], y_pred, average=None)
 
