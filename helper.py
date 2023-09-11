@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from classifier import MyClassifier
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, recall_score, accuracy_score, precision_score
 from sklearn.model_selection import train_test_split
 
 # obs: dados faltantes de labels => preenchendo com label 7 (sem doença)
@@ -29,4 +29,9 @@ clf = MyClassifier()
 clf.fit(dfs[:, :4000, :4000], labels[:4000])
 
 y_pred = clf.predict(dfs[:, 4001:, :4000])
-print(f"f1-score: {f1_score(labels[4001:], y_pred, average=None)}")
+
+ac = accuracy_score(labels[4001:], y_pred, average=None)
+prec = precision_score(labels[4001:], y_pred, average=None)
+rec = recall_score(labels[4001:], y_pred, average=None)
+f1 = f1_score(labels[4001:], y_pred, average=None)
+
