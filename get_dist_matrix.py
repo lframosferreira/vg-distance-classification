@@ -4,8 +4,11 @@ import pandas as pd
 import numpy as np
 
 
-dfs = [pd.read_json(f"nnd_n_avgs{i}.json") for i in range(18)]
+dfs = [pd.read_json(f"results/nnd_n_avgs{i}.json") for i in range(18)]
 df = pd.concat(dfs, axis=1)
+print(df.columns.duplicated)
+exit(0)
+df = df.loc[:,~df.columns.duplicated()].copy()
 df.to_json("results/nnd_n_avgs.json")
 
 cols = df.columns

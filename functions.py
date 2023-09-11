@@ -2,7 +2,6 @@ import numpy as np
 import numpy.typing as npt
 import rustworkx as rx
 from scipy.spatial.distance import jensenshannon
-import numba
 
 """ Constant weights used in the original paper """
 
