@@ -26,7 +26,7 @@ dfs = np.array(
 
 
 clf = MyClassifier()
-clf.fit(dfs[:, :][:4000][:, :4000], labels[:4000])
+clf.fit(dfs[:, :4000, :4000], labels[:4000])
 
-y_pred = clf.predict(dfs[:, :][4001:][:4000])
+y_pred = clf.predict(dfs[:, 4001:, :4000])
 print(f"f1-score: {f1_score(labels[4001:], y_pred)}")
