@@ -20,9 +20,9 @@ class MyClassifier:
 
     def predict(self, X):
         all_preds = np.zeros(X.shape[1])
-        for j, x in enumerate(X):
+        for j, single in enumerate(X):
             pred_for_lead = np.zeros(8)
             for i, clf in enumerate(self.clfs):
-                pred_for_lead[i] = clf.predict(X[i])[0]
+                pred_for_lead[i] = clf.predict(single)[0]
             all_preds[j] = statistics.mode(pred_for_lead)
         return all_preds
